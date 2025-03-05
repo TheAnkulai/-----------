@@ -9,12 +9,17 @@
 <body>
     
     <div class="main__clickerBlock">
-        <input id="counter" type="number" readonly value="0">
+        <input id="counter" type="number" readonly value="0.00">
         <button id="mainButton">абоба</button>
         <label for="upgrade">улучшение +1 к нажатию</label>
+        <p id="currentUpgradePrice">цена улучшения: 50</p>
         <button id="upgrade">купить</button>
         <p id="currentValuePerClick">единиц за нажатие: 1</p>
-        <p id="currentUpgradePrice">цена улучшения: 50</p>
+        <p id="currentPassivePlus">единиц в секунду: 0</p>
+    </div>
+    <div class="main__passiveUpgrades">
+        <label id="puLabel" for="passiveUpgrade">пассивные денюшки : +0.1 за уровень</label>
+        <button id="passiveUpgrade">купить за 100</button>
     </div>
 
     <script src="script/script.js"></script>
