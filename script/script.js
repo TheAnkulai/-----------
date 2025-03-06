@@ -1,30 +1,33 @@
 let counter = 0;
 let currentPlusValue = 1;
-let upgradePrice = 50;
+let upgradePrices = {upgrade1: 50, upgrade2: 2000};
 let passivePlus = 0;
 let passiveUpgradePrice = 100;
 let timer;
 
-const mainButton = document.querySelector('#mainButton');
-const upgradeButton = document.querySelector('#upgrade');
-const passiveUpgradeButton = document.querySelector('#passiveUpgrade');
+const clickButton = document.querySelector('#mainButton');
+const upgradeButton1 = document.querySelector('#upgrade1');
+const passiveUpgradeButton = document.querySelector('#passiveUpgrade1');
+const upgradeButton2 = document.querySelector('#upgrade2');
 
-mainButton.addEventListener('click', function(event) {
+clickButton.addEventListener('click', function(event) {
     counter = parseFloat((counter + currentPlusValue).toFixed(2));
     document.getElementById('counter').value = counter;
 });
 
-upgradeButton.addEventListener('click', function(event) {
-    if (counter >= upgradePrice) {
+upgradeButton1.addEventListener('click', function(event) {
+    if (counter >= upgradePrices.upgrade1) {
         currentPlusValue += 1;
-        counter = parseFloat((counter - upgradePrice).toFixed(2));
-        upgradePrice = parseFloat((upgradePrice * 1.5).toFixed(2));
-
-        document.getElementById('counter').value = counter;
-        document.getElementById('currentValuePerClick').innerText = `Единиц за нажатие: ${currentPlusValue}`;
-        document.getElementById('currentUpgradePrice').innerText = `Цена улучшения: ${upgradePrice}`;
+        priceUpdate('upgrade1', 'currentUpgradePrice1');
     }
 });
+
+upgradeButton2.addEventListener('click', function(event) {
+    if (counter >= upgradePrices.upgrade2) {
+        currentPlusValue += 5;
+        priceUpdate('upgrade2', 'currentUpgradePrice2');
+    }
+})
 
 passiveUpgradeButton.addEventListener('click', function(event) {
     if (counter >= passiveUpgradePrice) {
@@ -50,4 +53,13 @@ function passiveTimer() {
 function passivePlusometr() {
     counter = parseFloat((counter + (passivePlus * 0.1)).toFixed(2));
     document.getElementById('counter').value = counter;
+}
+
+function priceUpdate(upgradeKey, PriceTextId) {
+    counter = parseFloat((counter - upgradePrices[upgradeKey]).toFixed(2));
+    upgradePrices[upgradeKey] = parseFloat((upgradePrices[upgradeKey] * 1.25).toFixed(2));
+
+    document.getElementById('counter').value = counter;
+    document.getElementById('currentValuePerClick').innerText = `Единиц за нажатие: ${currentPlusValue}`;
+    document.getElementById(PriceTextId).innerText = `Цена улучшения: ${upgradePrices[upgradeKey]}`;
 }
