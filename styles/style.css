@@ -25,5 +25,8 @@ body {
 }
 .main__passiveUpgrades {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+}
+.passiveUpgrade {
+    margin: 10px;
 }

@@ -2,13 +2,15 @@ let counter = 0;
 let currentPlusValue = 1;
 let upgradePrices = {upgrade1: 50, upgrade2: 2000};
 let passivePlus = 0;
-let passiveUpgradePrice = 100;
+let passiveUpgradePrices = {upgrade1: 100, upgrade2: 1000};
 let timer;
 
 const clickButton = document.querySelector('#mainButton');
 const upgradeButton1 = document.querySelector('#upgrade1');
-const passiveUpgradeButton = document.querySelector('#passiveUpgrade1');
 const upgradeButton2 = document.querySelector('#upgrade2');
+const passiveUpgradeButton1 = document.querySelector('#passiveUpgradeButton1');
+const passiveUpgradeButton2 = document.querySelector('#passiveUpgradeButton2');
+
 
 clickButton.addEventListener('click', function(event) {
     counter = parseFloat((counter + currentPlusValue).toFixed(2));
@@ -29,19 +31,17 @@ upgradeButton2.addEventListener('click', function(event) {
     }
 })
 
-passiveUpgradeButton.addEventListener('click', function(event) {
-    if (counter >= passiveUpgradePrice) {
-        passivePlus = parseFloat((passivePlus + 0.1).toFixed(2));
-        counter = parseFloat((counter - passiveUpgradePrice).toFixed(2));
-        passiveUpgradePrice = parseFloat((passiveUpgradePrice * 1.15).toFixed(2));
-
-        document.getElementById('counter').value = counter;
-        document.getElementById('currentPassivePlus').innerText = `Единиц в секунду: ${passivePlus}`;
-        passiveUpgradeButton.innerText = `Купить за ${passiveUpgradePrice}`;
-        
-        passiveTimer();
+passiveUpgradeButton1.addEventListener('click', function(event) {
+    if (counter >= passiveUpgradePrices.upgrade1) {
+        passivePriceUpdate(0.1, 'upgrade1', passiveUpgradeButton1);
     }
 });
+
+passiveUpgradeButton2.addEventListener('click', function(event) {
+    if (counter >= passiveUpgradePrices.upgrade2) {
+        passivePriceUpdate(0.5, 'upgrade2', passiveUpgradeButton2);
+    }
+})
 
 function passiveTimer() {
     if (timer) {
@@ -62,4 +62,16 @@ function priceUpdate(upgradeKey, PriceTextId) {
     document.getElementById('counter').value = counter;
     document.getElementById('currentValuePerClick').innerText = `Единиц за нажатие: ${currentPlusValue}`;
     document.getElementById(PriceTextId).innerText = `Цена улучшения: ${upgradePrices[upgradeKey]}`;
+}
+
+function passivePriceUpdate(passivePlusValue, passiveUpgradeKey, buttonTextId) {
+    passivePlus = parseFloat((passivePlus + passivePlusValue).toFixed(2));
+    counter = parseFloat((counter - passiveUpgradePrices[passiveUpgradeKey]).toFixed(2));
+    passiveUpgradePrices[passiveUpgradeKey] = parseFloat((passiveUpgradePrices[passiveUpgradeKey] * 1.15).toFixed(2));
+
+    document.getElementById('counter').value = counter;
+    document.getElementById('currentPassivePlus').innerText = `Единиц в секунду: ${passivePlus}`;
+    buttonTextId.innerText = `Купить за ${passiveUpgradePrices[passiveUpgradeKey]}`;
+    
+    passiveTimer();
 }
